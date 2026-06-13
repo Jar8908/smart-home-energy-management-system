@@ -1,0 +1,921 @@
+
+  
+Acknowledgements
+I would like to express my sincere gratitude to my supervisor, Chathurika Goonawardane, for her continuous guidance, support and valuable feedback throughout the preparation of this dissertation. Her advice and encouragement helped me to develop my project ideas, improve the quality of my work and remain focused on the research objectives throughout the project lifecycle.
+I would also like to thank the academic staff at QA Southampton Solent University for their support, knowledge and assistance during my studies. In addition, I am grateful to the students and participants who took part in the evaluation and testing of the smart home prototype, as their feedback contributed significantly to the final evaluation of the system.
+Finally, I would like to express my deepest appreciation to my family members, kids and friends for their continuous encouragement, patience, understanding and emotional support throughout the completion of this dissertation. Their motivation and support gave me the strength and confidence to successfully complete this project.
+ 
+Abstract
+This dissertation presents the design and implementation of an IoT-based smart home system aimed at improving energy efficiency, user convenience and real-time monitoring of household appliances. The motivation for this project arises from the increasing issue of unnecessary domestic energy consumption caused by inefficient appliance usage and lack of user awareness. The project explores how a low-cost, accessible smart home solution can support better energy management through remote control and data-driven insights.
+The system was developed using a microcontroller-based platform integrated with sensors and actuators, including a PIR motion sensor, relay-controlled appliances (light and fan) and a servo motor for door control. A mobile application interface was implemented using Blynk, enabling users to remotely control appliances and monitor system activity in real time. The system also includes an energy monitoring feature that estimates energy consumption in watt-hours based on appliance usage and predefined power ratings. In addition, an energy-saving percentage is calculated to provide users with a clear indication of efficiency, alongside live data visualisation through charts displaying consumption and savings over time.
+The results demonstrate that the system successfully enables remote appliance control, accurate motion detection and continuous energy monitoring. The implementation of real-time feedback and visualisation improves user awareness of energy usage and encourages more efficient behaviour. Although the energy calculations are based on estimated values rather than direct measurement, the system effectively illustrates consumption patterns and potential savings.
+In conclusion, the project achieves its aim of developing a functional smart home prototype that integrates control, monitoring and energy awareness in a single platform. Future improvements could include integrating machine learning for predictive automation, enhancing accuracy with real-time energy sensors and expanding the system for full-scale home deployment.
+
+  
+Table of Contents
+Acknowledgements	i
+Abstract	ii
+List-of-Figures	11
+Key terms	12
+1. Introduction	14
+1.1 Background and Context	14
+1.2 Problem Statement	16
+1.3 Aim of the Project	17
+1.4 Objectives	17
+1.5 Research Question	18
+1.6 Scope of the Project	19
+1.7 Report Structure	20
+2. Literature Survey	21
+2.1 Introduction to Smart Home and IoT Technologies	21
+2.2 Edge Computing in Smart Home Systems	22
+2.3 Smart Home Automation and Appliance Control	24
+2.4 Motion Detection and Real-Time Monitoring	25
+2.5 Energy Monitoring and Energy Management Systems	26
+2.6 Notification Systems and Intelligent Safety Features	28
+2.7 Research Gap and Justification of the Proposed System	29
+3. Methodology	30
+3.1 System Development Methodology	30
+3.1.1 Development Approach	30
+3.1.2 Hardware Implementation	36
+3.1.3 Software Development	39
+3.1.4 RTC-Based Automation Method	42
+3.1.5	Energy Monitoring Method	42
+3.2 System Testing and Evaluation	43
+3.2.1 Quantitative Evaluation	43
+3.2.2 Qualitative Evaluation	44
+3.2.3 Functional Testing	44
+3.2.4 Automation Testing	45
+3.2.5 Energy Monitoring Evaluation	47
+3.2.6	User Evaluation Procedure	47
+3.3 Professional, Legal and Ethical Issues	48
+3.3.1 Ethical Considerations	49
+3.3.2 GDPR and Data Privacy	49
+3.3.3 Accessibility and Usability	50
+3.3.4 Professional Standards	50
+3.4 Project Management	51
+3.4.1 Project Planning	51
+3.4.2 Development Changes from AE1	52
+3.4.3 Risk Management	53
+3.4.4 Time Management and Monitoring	57
+3.4.5 Cost Evaluation	58
+4.Design and implementation	61
+4.1	System Design Overview	61
+4.1.1	Use Case Diagram	64
+4.1.2	System Activity Diagram	66
+4.1.3	Sequence Diagram	69
+4.1.4	User Persona	75
+4.2	Hardware Design and Sensor Selection	78
+4.2.1	Arduino Microcontroller Selection	79
+4.2.2	PIR Motion Sensor Selection	83
+4.2.3	DS3231 RTC Module Selection	86
+4.2.4 Servo Motor Selection	89
+4.2.4	Relay Module Selection	93
+4.3	Software Design	96
+4.3.1 Embedded Software Development	96
+4.3.2 Blynk Mobile Dashboard Design	98
+4.3.3 Blynk Console and Datastream Configuration	105
+4.4	System Implementation	108
+4.4.1 Remote Device Control Implementation	108
+4.4.2 Motion Detection Implementation	109
+4.4.3 RTC Automation Implementation	109
+4.4.4 Notification System Implementation	112
+4.4.5 Energy Monitoring Implementation	115
+4.5 Testing and Validation	117
+Functional Testing	117
+Integration Testing	118
+Automation Testing	118
+Dashboard Testing	119
+4.6 Problems Encountered and Solutions	119
+WiFi Connectivity Instability	120
+RTC Synchronisation Issues	122
+Relay Switching Problems	123
+Notification Spam	124
+4.7 Chapter Summary	124
+5. Results	127
+5.1 System Evaluation Results	127
+5.1.1 Overview of Achieved Functionality	127
+5.1.2 Remote Device Control Results	129
+5.1.3 Motion Detection Results	131
+5.1.4 RTC-Based Automation Results	132
+5.1.5 Dynamic Mobile Configuration Results	134
+5.1.6 Notification System Results	136
+5.1.7 Energy Monitoring Results	137
+5.1.8Energy Saving Evaluation	139
+5.1.9 Data Visualisation Results	140
+5.1.10 System Performance Evaluation	141
+5.2 User Evaluation Results	143
+5.3 Comparison with Original Expectations	154
+5.4 Discussion of Findings	157
+5.5 Answering the Research Question	158
+5.6 Chapter Summary	159
+6. External Validation of the Artefact	160
+7. Limitations	164
+8. Conclusions	166
+9. Recommendations and Future Improvements	168
+10. Personal Learning Statement	168
+11. Reference list	171
+12. Bibliography	172
+1.	Appendices	176
+Appendix A: AI declaration	A
+Appendix B: Ethical Release	B
+Appendix C:  User Evaluation Materials	F
+Appendix D: Pie Chart	C
+
+
+List-of-Figures
+
+Figure 4: Activity Diagram	42
+Figure 5: Sequence Diagram	43
+Figure 6	53
+
+Key terms 
+Internet of Things (IoT): A network of linked devices capable of exchanging data and communicating through the internet.
+Smart Home: A residential environment where appliances are digitally controlled, monitored and automated.
+Blynk: A mobile IoT platform used for device monitoring, control and dashboard visualisation.
+PIR Sensor: A Passive Infrared Sensor used to detect motion based on infrared radiation changes.
+DS3231 Real-Time Clock (RTC): A hardware module which provides accurate time for scheduling and automation tasks.
+Servo Motor: A rotary actuator used in this project for door unlock and lock control.
+Energy Consumption: The amount of electrical energy used by appliances with time, measured in watt-hours (Wh).
+Energy Saving Percentage: A calculated value symbolising the efficiency of appliance usage based on device activity.
+
+
+
+
+
+
+
+
+
+
+1. Introduction
+1.1 Background and Context
+In modern households the expanding use of electrical appliances has considerably contributed to rising energy consumption globally. Domestic appliances such as lighting systems, fans and electronic devices increase comfort and convenience; however, inefficient usage and lack of monitoring often result in unnecessary electricity wastage. Often, appliances remain switched on longer than necessary due to human forgetfulness, absence of automation and limited awareness of real-time energy consumption. Since energy costs and environmental concerns are increasing, there is a increasing demand for intelligent systems which can monitor, control and optimise household energy usage effectively. (Rehman et al. 2025).
+Recent developments in the Internet of Things (IoT) have assisted the development of smart home systems which can integrate actuators, sensors and wireless communication technologies via a single connected environment. These systems let users to remotely control and monitor household devices by using smartphones applications. Smart home automation not only increase user convenience but also encourages energy conservation, safety and efficient resource management (Condon et al. 2023).
+This project, titled “An Edge-Computing Approach to Energy Conservation: Developing a Predictive Resource Management System for Smart Homes,” focused on the design and implementation of an IoT-based smart home energy management system which combines remote device control, automation, motion detection, notification services and real-time energy monitoring within an integrated mobile platform. The implemented system allow users to control appliances including fans, lights and a servo motor-based door lock remotely via the Blynk mobile application.
+The system integrates a PIR motion sensor to detect movement and display live motion status within the mobile dashboard. Moreover, the project combined a DS3231 Real-Time Clock module, which enables accurate real-time automation and scheduling. By using the RTC module, the system complies with automated operations including switching OFF all connected devices automatically, turning lights ON at configured times and generating reminder notifications before shutdown events occur.
+A significant expansion of the implemented system is the involvement of dynamic time configuration directly from the mobile application. Instead of modifying source code manually, users can set up automation settings such as all-device shutdown time, reminder notification timing, automatic light ON time, light alert duration and fan auto-OFF duration directly via Blynk widgets and DataStream’s. This enhances flexibility, usability and real-time communication between users and the smart home environment.
+The system also consists of energy-saving and intelligent safety features. For example, lights and fans automatically turn OFF after predefined durations to skip unnecessary power consumption. Additionally, the application uninterruptedly calculates energy consumption in watt-hours (Wh) based on predefined power ratings and appliance operation time. Moreover, the system calculates a saved energy percentage to signify the efficiency level of appliance usage.
+To enhance user interaction and awareness, the Blynk mobile dashboard displays real-time information such as motion detection, automation schedules, energy usage, appliance status, saved energy percentage and adjustable alert durations. Data visualisation is achieved via live charts and gauge widgets, by allowing users to monitor consumption trends effectively.
+The project integrates various technologies including Embedded C++, Arduino, WiFi communication, PIR sensors, servo motors, the DS3231 RTC module and the Blynk IoT platform. Simultaneously, these technologies produce a low-cost and efficient smart home prototype which shows the practical application of IoT and automation for domestic energy management (Bindushree G T 2022).
+1.2 Problem Statement
+One of the considerable challenges in modern households is inefficient energy management caused by manual appliance control, shortage of automation and insufficient awareness of energy consumption. Devices such as fans and lights are frequently left operating excessively, leading to extended energy waste and electricity costs. Traditional home systems do not offer users with real-time monitoring, automated scheduling or intelligent safety mechanisms to manage appliance usage efficiently (Molla 2020).
+Although many commercial smart home systems persist, they are mostly expensive, dependent on cloud infrastructure or complex. In addition, several systems provide limited user flexibility regarding real-time monitoring and automation configuration system. Numerous low-cost systems also lack integrated energy visualisation, notification services and dynamic scheduling features (Saker and surah al dakhl 2017).
+This project addresses this issue by developing a smart home energy management system which integrates RTC-based automation, motion detection, remote appliance control, notification services and real-time energy monitoring within a single mobile application. The system aims to provide an affordable and practical solution for reducing unnecessary electricity consumption and improving household energy efficiency.
+1.3 Aim of the Project
+The main aim of this project is to design, implement and evaluate an IoT-enabled smart home energy management system able of performing real-time energy monitoring, intelligent appliance automation and remote device control via a mobile application platform. The project additionally aims to reduce unnecessary electricity consumption through automated safety features, RTC-based scheduling and user-centred energy management functionality evaluated through participant usability testing (Rehman et al. 2025)
+1.4 Objectives
+The objectives of this project are:
+	To develop a smart home system qualified of remotely controlling fans, lights and a door locking mechanism via a mobile application. 
+	To integrate display real-time motion status and PIR-based motion detection within the application. 
+	To implement RTC-based automation by using the DS3231 module for scheduled appliance control. 
+	To develop a dynamic mobile-based configuration system which allows users to adjust automation timings without altering the source code. 
+	To execute a notification system that alerts users regarding automation events and appliance activity. 
+	To develop automatic safety mechanisms including automatic light OFF, fan OFF and complete device shutdown. 
+	To display and calculate real-time energy consumption and saved energy percentage. 
+	To visualise system data by using charts, live graphs and dashboard widgets within the Blynk application. 
+	To evaluate the efficiency of the implemented system in reducing unnecessary appliance usage and improving energy awareness. 
+1.5 Research Question
+The main research question guiding this project is:
+“How can an IoT-based smart home system merging remote control, real-time monitoring, RTC-based automation and intelligent energy management reduce unnecessary power consumption and improve household energy efficiency?”
+This research investigates whether combining mobile interaction, automation and energy awareness features within a low-cost IoT framework can offer an effective and practical smart home energy management solution.
+1.6 Scope of the Project
+The scope of this project is restricted to the design and implementation of a prototype based smart home energy management system using IoT technologies. The system contains remote control of fans, light and a servo motor door lock via the Blynk mobile application. It also incorporates DS3231 RTC-based scheduling, PIR motion detection, automatic safety features, notification services and real-time energy monitoring.
+The project concentrates on demonstrating energy management functionalities and smart automation rather than producing a full commercial smart home ecosystem. Energy calculations are established on operational durations and predefined power ratings rather than direct electrical sensor measurements. Additionally, advanced technologies including voice assistants, machine learning-based prediction and cloud analytics are beyond the scope of this project but might be considered for future enhancement. (Molla 2020)
+
+2. Literature Survey
+2.1 Introduction to Smart Home and IoT Technologies
+(Pandey et al. 2025) identified IoT as a framework that integrates sensors, communication protocols and embedded devices to support real-time data collection and automation. Similarly, Risteska Stojkoska and Trivodaliev (2017) reported that smart home technologies can improve convenience and support energy optimisation through intelligent appliance management.
+However, many existing smart home implementations focus primarily on connectivity and remote access rather than demonstrating measurable energy-saving outcomes. Furthermore, several studies discuss smart home concepts at a theoretical level without providing integrated solutions that combine automation, monitoring and energy awareness. This creates a need for affordable systems capable of delivering both appliance automation and energy management functionality. The proposed system addresses this gap by integrating remote control, motion detection, scheduling and energy monitoring within a single mobile-based platform. (Martínez-Morocho et al. 2026)
+2.2 Edge Computing in Smart Home Systems
+(Sannapureddy et al. 2024) argued that edge computing improves responsiveness by processing data closer to devices rather than relying entirely on cloud infrastructure. Similarly, (Zhang et al. 2025) found that localised processing reduces latency and improves reliability in IoT environments requiring real-time decision making.
+Although cloud-based architectures provide scalability and remote accessibility, they remain dependent on internet connectivity and may introduce privacy and latency concerns. Habibi et al. (2020) demonstrated that local processing can improve operational efficiency and reduce unnecessary external communication. However, some proposed edge architectures rely on specialised gateways and high-performance hardware, increasing implementation costs. The proposed system addresses this limitation by using an Arduino Uno R4 WiFi controller to perform automation and monitoring functions locally while maintaining a low-cost deployment model.
+
+2.3 Smart Home Automation and Appliance Control
+Al-Kuwari et al. (2018) reported that smart home automation systems improve convenience and energy efficiency through the integration of sensors, relay modules and wireless communication technologies. Many existing systems also provide remote appliance control through mobile applications, allowing users to monitor and manage devices in real time.
+Despite these advantages, several low-cost automation systems require source-code modifications whenever scheduling changes are needed, limiting accessibility for non-technical users. This represents a usability limitation within many existing implementations. To address this issue, the proposed system incorporates dynamic mobile-based scheduling, enabling users to modify automation timings directly through the mobile application without reprogramming the controller. This improves flexibility and usability compared with many basic IoT automation solutions.
+2.4 Motion Detection and Real-Time Monitoring
+Odamboy Djumanazarov et al. (2022) demonstrated that PIR sensors provide a low-cost and reliable method for detecting human movement in smart home environments. Their findings suggest that motion-based automation can improve energy efficiency by ensuring appliances operate only when required. However, many existing systems focus primarily on motion detection while providing limited real-time user feedback and monitoring capabilities. This reduces user awareness of system activity and appliance usage.
+To address this limitation, the proposed system integrates PIR-based motion detection with live dashboard updates through the Blynk platform, enabling users to monitor occupancy conditions and automation events in real time.
+
+2.5 Energy Monitoring and Energy Management Systems
+Energy management is one of the most notable research areas within smart home development. Smart home energy management systems intend to reduce electricity wastage by improving user awareness and monitoring appliance consumption.
+According to International Energy Agency (2022), residential buildings provide substantially to global electricity consumption. The report illustrates the importance of automation systems and smart technologies in improving household energy efficiency. Aliero et al. (2021) reported that smart home energy management systems can reduce energy waste through the integration of monitoring and automation technologies. However, many existing solutions rely on specialised sensors and costly infrastructure, limiting accessibility for domestic users.
+This project addresses this limitation through a lightweight energy-monitoring approach that estimates energy consumption using appliance operating duration and predefined power ratings. The calculated values are displayed through charts, gauges and indicators within the mobile dashboard to improve user awareness of energy usage.
+
+2.6 Notification Systems and Intelligent Safety Features
+Notification systems are increasingly integrated into modern smart home environments to improve safety and user awareness. Mobile notifications can alert users regarding security events, appliance activity or energy-related warnings.
+Existing research demonstrates that many low-cost IoT systems lack of intelligent safety controls and integrated alert mechanisms. In some systems, appliances may continue to operate unnecessarily if users forget to switch them OFF manually.
+The implemented system addresses this limitation through notification services and intelligent safety features. The application sends notifications for events including:
+	lights remaining ON for extended periods, 
+	reminder alerts before automatic shutdown, 
+	automatic all-device OFF confirmation. 
+The system also provides automatic light OFF and fan OFF features after configurable durations. These automation mechanisms help to reduce unnecessary power consumption while improving operational efficiency and household safety.
+2.7 Research Gap and Justification of the Proposed System
+The literature review identified several limitations within existing smart home energy management solutions. While many studies successfully demonstrate remote appliance control, automation and monitoring capabilities, these functionalities are often implemented independently rather than within a single integrated platform. Cloud-dependent architectures introduce concerns relating to latency, privacy and internet reliability, whereas some advanced edge-computing solutions require specialised hardware that increases cost. Furthermore, many low-cost systems provide limited user configurability, requiring manual source-code modifications to update automation schedules. Existing solutions also frequently lack integrated energy visualisation, notification services and intelligent safety features. These limitations highlight a research gap for an affordable, user-friendly smart home system that combines automation, energy monitoring, real-time visualisation and dynamic mobile-based configuration within a unified platform. (Alejandro Valencia Arias et al. 2023)
+
+
+ 
+3. Methodology
+This section explains and justifies the tools, methods and development approaches which is used to design, implement and evaluate the proposed smart home energy management system. The methodology focuses on system hardware, data collection, development and software integration, testing procedures and evaluation methods. In addition, this chapter analyses the professional, ethical considerations and legal associated with the project, alongside project management approaches used throughout the development lifecycle.
+The methodology has been selected to ensure that the project objectives could be accomplished systematically while maintaining technical usability, reliability and academic validity. Since the project includes the creation of a functional IoT prototype, a iterative and practical development approach was adopted. The methodology supports continuous testing and refinement during implementation as well.
+3.1 System Development Methodology
+3.1.1 Development Approach
+A structured development methodology was required to support the implementation of the IoT-based smart home energy management system. Since the project involved hardware integration, embedded programming, automation development and mobile application communication, an iterative prototyping approach was adopted to enable continuous testing, refinement and gradual system improvement throughout development.
+The development process included of the following stages: 
+Phase	Activity
+1	Literature review and requirement analysis
+2	Hardware installation and component selection
+3	Sensor and actuator testing
+4	Blynk mobile dashboard development
+5	DS3231 RTC integration and automation implementation
+6	Energy monitoring and calculation system development
+7	Notification and safety feature integration
+8	System testing and optimisation
+9	Final evaluation and dissertation documentation
+
+ 
+ 
+
+Figure 3.X: Iterative Prototyping Development Approach for the Smart Home Energy Management System
+
+The diagram illustrates the iterative prototyping methodology followed during the development of the smart home energy management system. The development process was divided into multiple phases beginning with literature review and requirement analysis, followed by hardware installation, sensor testing, mobile dashboard development and automation implementation.
+Subsequent stages included energy monitoring integration, notification system development, system optimisation and final evaluation. The iterative structure allowed each module to be tested and refined independently before full system integration. This reduced implementation risks, improved debugging efficiency and supported gradual enhancement of system functionality throughout the project lifecycle. (Saravanos 2025)
+
+
+
+3.1.2 Hardware Implementation
+ 
+
+ 
+
+
+The smart home prototype was implemented by using Arduino as the primary microcontroller platform. Arduino was selected due to its affordability, ease of programming and compatibility with multiple IoT modules and sensors.
+The hardware components used in the project consist of: Arduino microcontroller, PIR motion sensor, DS3231 Real-Time Clock (RTC) module, Servo motor, Relay modules, LED lighting components, Fan module, WiFi communication module 
+The PIR sensor was integrated to detect human movement and send motion status data to the mobile application. The servo motor was selected to simulate a smart door lock mechanism, while relay modules-controlled appliance switching operations. The DS3231 RTC module supplied accurate real-time scheduling for automation tasks.
+Each hardware component was primarily tested separately before being integrated into the final system. This confirmed reliable communication between actuators, sensors and the microcontroller. (Sreejith et al. 2025)
+
+
+3.1.3 Software Development
+ 
+The software implementation was developed by using Embedded C/C++ within the Arduino IDE environment. The system logic contained device control functions, notification triggers automation algorithms and energy calculations.
+The Blynk IoT platform was used to create enable wireless communication and the mobile dashboard between the smart home system and the user. Blynk was selected since it provides: real-time IoT communication, mobile dashboard widgets, graph visualisation, notification services, adjustable data streams. 
+The Blynk dashboard was designed to incorporate: appliance control buttons, motion detection indicators, automation timing controls, energy monitoring gauges, live graph visualisations, notification settings. 
+Dynamic automation settings were implemented by using Blynk datastreams, authorising users to configure scheduling values directly from the mobile application without modifying Arduino source code. This confirmed a reliable communication between sensors, actuators and the microcontroller. (Sharma1 and Kantha 2020)
+ 
+ 
+Figure 4.1 illustrates the integrated smart home prototype used during implementation and testing.
+
+3.1.4 RTC-Based Automation Method
+A considerable methodology component involved implementing RTC-based automation by using the DS3231 module. The RTC module continuously supplied accurate hour and minute values to the microcontroller.
+Automation rules were developed to: turn lights ON automatically at configured times, switch OFF all devices at scheduled times, trigger reminder notifications before shutdown, perform automatic fan OFF operations after configured durations. 
+The integration of RTC automation improved system intelligence and reduced the need for continuous manual appliance management. Compared to simple timer-delay components, RTC scheduling provided more user-configurable and accurate automation behaviour. (Telsang et al. 2024)
+	Energy Monitoring Method
+The energy monitoring functionality was implemented by using a software-based calculation method. Rather than using dedicated electrical current sensors, energy consumption was estimated by using: appliance power ratings, ON/OFF device states, duration of operation. The energy calculation observed the formula:Energy (Wh)=Power (W)×Time (hours). The system continuously calculated and monitored appliance runtime on daily energy usage in watt-hours (Wh). Additionally, an energy-saving percentage was produced dynamically based on appliance activity levels.
+This lightweight monitoring approach was selected since it reduced hardware complexity and cost while providing meaningful energy awareness for users. (International Energy Agency 2022)
+3.2 System Testing and Evaluation
+3.2.1 Quantitative Evaluation
+Quantitative evaluation was conducted to measure system performance and user satisfaction using numerical data and structured survey responses. A Likert-scale questionnaire was distributed to participants following a live demonstration of the smart home prototype at Southampton Solent University. The questionnaire collected measurable feedback regarding usability, automation effectiveness, energy monitoring and remote-control functionality. User evaluation results indicated that 90% of participants agreed that the system increased energy awareness and supported more efficient appliance usage. Quantitative findings are presented and analysed further in Chapter 5. (Joshi and Das 2025)
+3.2.2 Qualitative Evaluation
+Qualitative evaluation was conducted to gather participant opinions, experiences and observations regarding the implemented smart home system. Participants were encouraged to provide feedback after interacting with the prototype, particularly regarding automation convenience, mobile dashboard usability and energy-monitoring functionality.
+Feedback indicated that participants found the system easy to use and appreciated the automatic device control and real-time monitoring features. Several participants additionally suggested future improvements including voice assistant integration and advanced predictive automation capabilities. Qualitative participant feedback is discussed further in the Results chapter. (Joshi and Das 2025)
+3.2.3 Functional Testing
+Functional testing was carried out though development to verify that all hardware and software components operated correctly. Individual feature was tested independently before full system integration.
+The following functionalities were verified: light ON/OFF control, fan ON/OFF control, servo motor door control, PIR motion detection, RTC scheduling operations, mobile notifications, energy calculations, graph visualisation, automatic device shutdown. 
+The testing process verified that user commands sent through the Blynk application correctly controlled the connected appliances in real time.
+
+3.2.4 Automation Testing
+Automation testing concentrated on evaluating the reliability and accuracy of RTC-based scheduling features.
+Testing contained: automatic light activation at configured times, automatic device shutdown, triggering of reminder notification, fan auto-OFF timing, light alert duration monitoring. 
+Automation Testing Area	Purpose
+Automatic light activation	Verify light turns ON at configured RTC time
+Automatic device shutdown	Verify all devices switch OFF automatically
+Reminder notification triggering	Verify reminder alerts are generated correctly
+Fan auto-OFF timing	Verify fan switches OFF after configured duration
+Light alert duration monitoring	Verify alerts trigger when light remains ON too long
+
+The DS3231 RTC module was tested frequently to confirm stable and accurate scheduling performance. (Vadan and Miclea 2023)
+3.2.5 Energy Monitoring Evaluation
+The energy monitoring system was analysed by comparing device runtime against calculated energy values. Appliance operation durations were monitored manually and compared with displayed energy consumption values within the Blynk dashboard.
+Graphs and gauge widgets were used to visualise daily energy usage, saved energy percentage, patterns of appliance activity. The results established that the system successfully tracked usage trends and provided energy awareness information.
+
+	User Evaluation Procedure
+Basic user evaluation was conducted to assess the usability, accessibility, and effectiveness of the developed smart home energy management system. The evaluation focused on: ease of navigation, readability of information, simplicity of device control, responsiveness of automation features, clarity of energy visualisation and overall user satisfaction. 
+A live demonstration of the prototype system was physically conducted at Southampton Solent University. Participants were invited to interact with the smart home system, including the mobile dashboard, motion detection features, RTC-based automation, appliance control functions, and energy monitoring capabilities.
+Following the demonstration, participants completed an anonymous Jisc Online Survey questionnaire. The questionnaire was designed to gather user opinions regarding usability, automation performance, energy awareness, and overall effectiveness of the developed system.
+Participation was voluntary and anonymous, and no personally identifiable information was collected. Ethical considerations were maintained by providing participants with a consent form and participant information page before beginning the survey.
+The collected feedback was later analysed using percentage-based response summaries and graphical visualisations generated through the Jisc survey platform. The evaluation results were used to assess the practicality and usability of the proposed smart home solution. (Govindarajan et al. 2025)
+References to the evaluation materials, survey screenshots and participant documentation are provided in Appendix C.
+3.3 Professional, Legal and Ethical Issues
+The project was developed whilst considering legal, professional and ethical responsibilities associated with IoT systems and smart home technologies.
+3.3.1 Ethical Considerations
+Ethical approval for the project was obtained throughout Southampton Solent University’s ethics application process and is included in the appendices of this report.The project primarily processes device activity and environmental data rather than personally identifiable information. Motion detection data collected via the PIR sensor which only indicates movement presence and does not capture audio recordings, images or biometric information. Any user feedback collected during system evaluation was anonymised and voluntary. Participants were informed regarding the aim of testing and retained the right to withdraw at any stage.
+Prior to conducting participant-based evaluation and data collection, the researcher successfully completed the Epigeum “Working with Human Participants” training course provided through Southampton Solent University. The certification confirmed understanding of ethical research practices, participant consent procedures, confidentiality, anonymity and responsible data collection involving human participants. This training supported the ethical management of the user evaluation process conducted within this project. A copy of signed ethics form by the supervisor and the completion certificate is provided in Appendix B.
+3.3.2 GDPR and Data Privacy
+The project followed UK GDPR principles and data privacy requirements throughout development phase. The system was designed to reduce collection of personal information. No sensitive personal data was kept permanently within the system. The Blynk application was only used for monitoring and appliance control purposes. Authentication and account management were controlled through the Blynk platform infrastructure. The project also minimised privacy concerns by processing automation logic locally on the microcontroller rather than constantly transmitting all sensor data to external cloud servers.
+3.3.3 Accessibility and Usability
+The mobile dashboard interface was designed with accessibility and usability principles in mind. Although the project does not execute a full web-based GUI, dashboard elements were organised clearly to enhance readability and interaction. Consideration was given to simple navigation, readable labels, logical widget grouping, real-time feedback visibility. The design method aligns with usability concepts associated with the W3C Web Accessibility Initiative (WAI) and WCAG accessibility recommendations.
+3.3.4 Professional Standards
+The project followed research practices and professional software development throughout implementation. Academic integrity was sustained through proper Harvard referencing and citation of literature sources. Testing procedures, development progress and system changes were documented systematically during implementation phase. Modular coding approaches were used to minimise improve maintainability and software errors. (Karale 2021)
+3.4 Project Management
+3.4.1 Project Planning
+To support effective project management and structured development throughout the dissertation lifecycle, a Gantt chart was developed to organise the planned and actual implementation timeline of the smart home energy management system. The chart was used to monitor progress across major project phases including research, hardware implementation, software development, testing, evaluation and report writing activities.
+ 
+Figure 3.X: Gantt Chart Showing the Planned and Actual Timeline of the Smart Home Energy Management System Project
+
+ 
+The Gantt chart illustrates the planned schedule and actual progress of the project activities across the development lifecycle. The timeline demonstrates the completion of major tasks including literature review, sensor integration, Arduino programming, Blynk dashboard development, RTC automation, energy monitoring implementation, testing and user evaluation. Minor timeline adjustments occurred during development due to additional features such as RTC-based automation, notification systems and participant-based usability evaluation. (Anon. 2022)
+3.4.2 Development Changes from AE1
+During implementation, various deviations occurred compared to the original AE1 proposal. The original proposal focused more on predictive resource management and advanced edge-computing concepts. However, throughout practical implementation, the project evolved towards intelligent automation, RTC-based scheduling, mobile-controlled appliance management, notification systems, real-time energy monitoring. 
+Additional features including dynamic mobile configuration, automatic device shutdown, configurable automation duration were established after successful initial prototype development. 
+These modifications enhanced usability and practicality while remaining aligned with the overall project goal of reducing domestic energy wastage.
+3.4.3 Risk Management
+Several technical and operational risks were identified during the development of the smart home energy management system. Potential risks included hardware malfunction, unstable WiFi communication, incorrect sensor readings, RTC synchronisation issues and software integration failures between hardware and mobile application components. To minimise these risks, continuous testing, modular development and contingency planning were implemented throughout the project lifecycle.
+Table 3.1 presents the primary risks identified during development alongside their potential impact and mitigation strategies.
+
+Risk Identified	Potential Impact	Mitigation Strategy
+Hardware malfunction or component failure	System instability or incomplete functionality	Backup hardware components were prepared and individual hardware modules were tested before integration
+WiFi communication failure	Loss of mobile dashboard connectivity and remote control	Reconnection logic and repeated communication testing were implemented
+Incorrect sensor readings	Inaccurate automation behaviour and monitoring results	Sensor calibration and repeated validation testing were conducted
+RTC synchronisation issues	Incorrect automation scheduling and notification timing	DS3231 RTC calibration and battery backup verification were performed
+Software integration errors	Failure of communication between hardware and mobile application	Modular coding and incremental testing approaches were used
+Relay module switching problems	Incorrect appliance ON/OFF behaviour	Relay logic conditions were adjusted and repeatedly tested
+Notification triggering errors	Excessive or missing mobile alerts	Notification timing intervals and event conditions were refined
+Time management delays	Delayed project completion	Weekly progress monitoring and milestone-based planning were followed
+Data loss or coding errors	Loss of implementation progress	Regular backup copies of source code and configuration files were maintained
+Overall, the applied risk management approach improved system reliability, reduced implementation issues and supported successful completion of the project within the allocated development timeframe.
+3.4.4 Time Management and Monitoring
+Project progress was monitored constantly through weekly development targets and supervisor feedback sessions. Time allocation was divided between: 
+Project Area	Description
+Literature Review	Reviewing smart home, IoT and energy management research
+Implementation	Developing hardware and software components
+Testing	Performing functional, automation and integration testing
+Evaluation	Analysing system performance and participant feedback
+Dissertation Writing	Preparing documentation, diagrams and final report
+
+Although the project scope changed during implementation, efficient time management ensured successful completion of the key system functionalities within the allocated project timeline.
+Overall, the project management approach supported continuous improvement, systematic development and successful delivery of the final smart home energy management prototype. (Martínez-Morocho et al. 2026)
+3.4.5 Cost Evaluation
+The smart home prototype was designed as a low-cost IoT solution using affordable and widely available hardware components. Cost efficiency was considered throughout development to ensure that the system remained practical for small-scale domestic implementation and educational prototyping purposes.
+The total hardware cost of the implemented prototype remained relatively low compared to many commercial smart home systems. Components including the Arduino controller, PIR sensor, relay modules, servo motor, RTC module and LEDs were selected due to their affordability, simplicity and compatibility with IoT development platforms.
+Table summarises the approximate hardware costs used during implementation.
+
+Component	Approximate Cost (£)
+Arduino Uno R4 WiFi	25
+PIR Motion Sensor	3
+DS3231 RTC Module	4
+Relay Module	5
+Servo Motor	6
+LEDs and Wiring	5
+Fan Module	7
+Breadboard and Connectors	5
+Total Approximate Cost	60
+
+The cost evaluation demonstrates that functional smart home automation and energy monitoring systems can be developed using relatively inexpensive embedded hardware. This supports the feasibility of low-cost IoT solutions for domestic energy management applications. (Silhavy et al. 2023)
+
+4.Design and implementation
+This section discusses the development, design and implementation of the proposed smart home energy management system. It explains the architecture of the hardware and software selection, mobile dashboard development, implementation process and testing procedures. Furthermore, this section also discusses the challenges encountered during development and how these issues were determined.
+The design of the system concentrated on creating a user-friendly, low-cost and energy-efficient smart home prototype qualified for real-time monitoring, remote appliance control and intelligent automation. The system integrates actuators, sensors, communication modules and mobile technologies to create an IoT-enabled smart home environment.
+	System Design Overview
+The proposed smart home system was designed by using an IoT-based architecture where actuators, sensors and mobile applications communicate through wireless internet connectivity. The design aim was to create a system capable of: remotely controlling household devices, monitoring appliance activity in real time, automating appliance behaviour, reducing unnecessary energy consumption, providing energy awareness through live visualisation. (Ma’arif et al. 2023)
+The system architecture consists of four major layers:
+	Hardware Layer 
+	Control and Processing Layer 
+	Communication Layer 
+	User Interface Layer 
+The hardware layer includes the physical devices including relays, sensors, servo motors and RTC modules. The processing layer consists of the Arduino-compatible microcontroller responsible for executing energy calculations and automation logic. The communication layer operates wireless connectivity through WiFi and the Blynk cloud platform. Finally, the user interface layer include the Blynk mobile dashboard used for monitoring and device control.
+The architecture was designed to support both automated and manual appliance management while maintaining low implementation operational simplicity and cost.
+
+ 
+System Architecture Diagram of the Smart Home Energy Management System
+The system architecture diagram illustrates how the smart home energy management system is structured. The user interacts with the system through the Blynk mobile application, which communicates with the Arduino controller through WiFi and the Blynk IoT platform. The Arduino acts as the edge processing unit, receiving data from the PIR motion sensor and DS3231 RTC module while controlling the light, fan and servo motor door lock. The system also calculates energy consumption, updates dashboard widgets and sends notification alerts to the user. (Sommerville and Pippa 2026)
+
+	Use Case Diagram
+To better understand the interaction between the user and the smart home energy management system, a use case diagram was developed during the system design stage. 
+
+ 
+The use case diagram presents the primary interactions between the user and the smart home system. Further details are provided in Appendix E.
+	System Activity Diagram
+An activity diagram was created to visually represent the operational workflow of the proposed smart home energy management system. 
+ 
+The activity diagram illustrates the workflow of the smart home system from user interaction through automation processing and device operation. A detailed description is provided in Appendix E
+	Sequence Diagram
+The sequence diagram illustrates the interaction between the user, Blynk application and Arduino controller during appliance control and monitoring operations.
+4.1.3.a Smart Home System Interaction Sequence Diagram
+A sequence diagram was developed to illustrate the communication process between the user, mobile application, Arduino controller, sensors and connected appliances. The diagram helps explain how real-time commands, automation operations and monitoring data are exchanged throughout system operation.
+
+ 
+Figure 4.X: Smart Home System Interaction Sequence Diagram
+The sequence diagram shows how the user, Blynk mobile app, Arduino controller, sensors, RTC module and appliances interact during system operation. The user sends commands through the Blynk app to control the light, fan and door. The Arduino receives these commands through WiFi and activates the correct device. At the same time, the Arduino reads motion data from the PIR sensor and time data from the DS3231 RTC module to perform automation, send notifications and update energy information on the mobile dashboard.
+4.1.3.b RTC Automation Sequence Diagram
+The RTC automation sequence diagram illustrates how scheduled events are processed by the RTC module and executed by the controller.  
+ 
+
+Figure 4.X: RTC-Based Automation and Notification Sequence Diagram
+It demonstrates the automated activation and deactivation of connected appliances. Additional details are provided in Appendix E.
+
+4.1.3.c Energy Monitoring Sequence Diagram
+The energy monitoring sequence diagram illustrates the process of collecting appliance status information, calculating energy consumption and updating the mobile dashboard.
+ 
+
+
+Figure 4.X: Energy Monitoring and Dashboard Update Sequence Diagram
+A detailed explanation is provided in Appendix E.
+
+
+
+
+
+
+
+	User Persona
+User personas were developed during the design stage to represent the intended users of the proposed smart home energy management system. The personas helped guide the development of automation features, mobile dashboard usability and energy-monitoring functionality by reflecting realistic user needs and behavioural patterns relating to energy conservation and appliance management.
+ 
+Figure 4.2: User Persona Representing an Energy-Conscious Smart Home User
+The user persona was developed to represent a typical homeowner seeking to reduce household energy consumption through smart automation and real-time monitoring technologies. The persona guided the design of energy management features, automation behaviour and mobile dashboard usability during system development. It reflects users who require convenient appliance control, energy awareness and intelligent scheduling through an IoT-based mobile platform.
+
+ 
+Figure 4.3: User Persona Representing an Office Energy Management User
+A secondary user persona was developed to represent office environments where energy consumption and appliance management are important operational concerns. The persona reflects users responsible for reducing workplace electricity waste through automation, remote monitoring and intelligent energy management technologies.
+
+
+
+
+	Hardware Design and Sensor Selection
+This section discusses the hardware components selected for the development of the smart home energy management system. The selection process focused on identifying suitable sensors, controllers and actuator modules capable of supporting real-time monitoring, appliance automation, energy management and wireless communication. Different hardware technologies were compared based on functionality, compatibility, cost, reliability and ease of integration before final implementation decisions were made. 
+	Arduino Microcontroller Selection
+The microcontroller acts as the core processing unit of the proposed smart home energy management system. Several Arduino-compatible and IoT microcontroller platforms were evaluated to identify the most suitable controller for real-time automation, wireless communication, sensor integration and energy-monitoring operations.
+Comparison of Arduino-Based Microcontroller Boards
+Microcontroller Board	Advantages	Limitations	Reason for Final Selection
+Arduino Uno R3	Widely used, easy programming, strong community support	No built-in WiFi functionality, lower processing capability	Not selected because additional WiFi modules would be required for IoT communication
+Keyestudio KS0085 Sensor Shield Board	Easy sensor connections, designed for educational use, compatible with Arduino modules	Operates mainly as an expansion shield rather than a standalone advanced controller	Used for sensor integration support, but not selected as the primary processing controller
+NodeMCU ESP8266	Built-in WiFi, compact design, low cost	Limited GPIO pins and reduced compatibility with some hardware modules	Considered for wireless communication but less suitable for multiple hardware integrations
+ESP32 Development Board	Built-in WiFi and Bluetooth, stronger processing capability	More complex configuration and integration for beginners	Considered suitable for IoT applications but increased implementation complexity
+Arduino Uno R4 WiFi	Built-in WiFi, improved processing performance, easy Arduino compatibility, stable hardware integration, suitable for IoT systems	Slightly higher cost compared with older Arduino boards	Selected because it provided reliable WiFi communication, simple integration with the Keyestudio KS0085 kit and sufficient processing capability for automation, energy monitoring and real-time smart home operations
+
+ 
+Figure 4.2 Arduino Uno R4 WiFi used as the main system controller.
+The Arduino Uno R4 WiFi was selected due to its built-in WiFi, compatibility with the Keyestudio kit and sufficient processing capability for smart home automation.
+	PIR Motion Sensor Selection
+The system required a motion detection mechanism able of detecting human movement within the smart home environment. Various sensor technologies were considered including: PIR (Passive Infrared) sensors, ultrasonic sensors, camera-based detection systems. 
+The selected sensor was a PIR sensor.
+ 
+Figure 4.3 PIR motion sensor used for occupancy detection.
+Comparison of Motion Detection Technologies
+Sensor Type	Advantages	Limitations
+PIR Sensor	Low cost, simple integration, low power	Detects only motion
+Ultrasonic Sensor	Distance measurement possible	Higher power usage
+Camera-Based Detection	High accuracy and tracking	Expensive and privacy concerns
+The PIR sensor was selected since: it is inexpensive, consumes less power, provides reliable motion detection, integrates effortlessly with Arduino systems, avoids privacy concerns associated with cameras. 
+The PIR sensor detects infrared radiation changes caused by human movement. When any motion is detected, the system updates the mobile dashboard and can trigger automation operations if required.
+This sensor was individually suitable for the project since the objective was simple occupancy detection rather than advanced object tracking or image analysis. (Adewole et al. 2024)
+	DS3231 RTC Module Selection
+The project required accurate real-time scheduling functionality for automation tasks including automatic light activation, automatic device shutdown and reminder notifications. Several RTC hardware modules were evaluated during system design to identify the most suitable solution for reliable automation scheduling..
+ 
+Figure 3.5 DS3231 Real-Time Clock Module Used for Automation Scheduling
+
+RTC Module	Advantages	Limitations	Reason for Final Selection
+DS1307 RTC	Low cost, simple implementation, widely available	Lower accuracy, affected by temperature changes, requires external crystal stability	Not selected due to lower timekeeping accuracy and weaker long-term reliability
+PCF8523 RTC	Low power consumption, battery backup support	Less accurate compared to DS3231, fewer advanced timing features	Considered suitable for lightweight applications but less reliable for precise automation scheduling
+DS3231 RTC	High accuracy, integrated temperature-compensated crystal oscillator (TCXO), battery backup support, stable long-term performance, reliable offline operation	Slightly higher cost than older RTC modules	Selected because it provides highly accurate and stable scheduling functionality required for automation, notifications and energy-management operations
+
+The DS3231 RTC module was selected over older RTC versions because it provides significantly improved timing accuracy through its integrated temperature-compensated crystal oscillator (TCXO). Unlike older modules such as the DS1307, the DS3231 is less affected by environmental temperature variations and maintains stable long-term timekeeping performance. This made the module more suitable for automation features requiring accurate scheduling, including automatic light activation, reminder notifications and automatic all-device shutdown operations.
+The RTC module enabled: automatic light ON scheduling, automatic all-device OFF scheduling, reminder alert timing, fan auto-OFF operations. (Suryamiharja et al. 2025)
+4.2.4 Servo Motor Selection
+The smart home system required an actuator capable of performing door locking and unlocking operations. Several actuator technologies were considered during system design, including DC motors, stepper motors and servo motors. Following evaluation, a servo motor was selected as the most suitable solution for the proposed smart home prototype. 
+Figure 3.6: Servo Motor Used for Smart Door Lock Control
+Comparison of Actuator Types
+Actuator	Advantages	Limitations
+DC Motor	Simple rotation	No positional accuracy
+Stepper Motor	Precise movement	More complex control
+Servo Motor	Accurate angle positioning	Limited rotation range
+The servo motor was selected because it provides precise angle control, stable rotational positioning, low power consumption and simple integration with Arduino systems. Unlike DC motors, servo motors can accurately maintain fixed angular positions, making them suitable for controlled door locking and unlocking operations. Although stepper motors also provide accurate movement control, they require more complex programming and hardware configuration compared with servo motors.
+The servo motor was particularly appropriate for this project because the door mechanism only required controlled angular movement rather than continuous rotation. The actuator was integrated with the Blynk mobile application, allowing users to remotely lock and unlock the smart door mechanism through the mobile dashboard interface.
+	Relay Module Selection
+Relay modules were implemented within the smart home energy management system to control high-power appliances including the lighting components and fan module. Different switching technologies were evaluated during system design, including transistor switching circuits, MOSFET modules and relay modules. Following comparison, relay modules were selected as the most suitable solution for appliance automation within the proposed system.
+ 
+Figure 3.4 Relay module used for appliance switching.    
+Comparison of Switching Technologies
+Switching Technology	Advantages	Limitations
+Transistor Switching	Fast switching speed, low cost	Limited support for high-voltage AC appliances
+MOSFET Modules	Efficient power control, low heat generation	More suitable for DC loads and requires additional protection circuitry
+Relay Modules	Electrical isolation, supports higher-voltage loads, easy integration with Arduino	Slower switching speed compared with transistor-based solutions
+                                     
+Relay modules were selected because they provide electrical isolation between the low-voltage Arduino controller and higher-power electrical circuits. In addition, relay modules support higher-voltage appliance switching, integrate easily with Arduino systems and are widely used in smart home automation applications.
+The relay modules allowed the microcontroller to safely control appliance switching operations without exposing the controller circuitry to high-voltage electrical loads. This improved both system safety and reliability during implementation and testing. (Ali Khan et al. 2024)
+	Software Design
+The software design of the proposed smart home energy management system focused on developing reliable communication, automation and monitoring functionality between the hardware components and the mobile application platform. Both embedded software and mobile dashboard interfaces were designed to support real-time appliance control, RTC-based automation, notification services and energy monitoring while maintaining system usability, flexibility and efficient performance.
+4.3.1 Embedded Software Development
+The embedded software was developed by using Embedded C/C++ within the Arduino IDE environment. The software design followed a modular structure to improve, maintenance, readability and debugging.
+The software included modules for:
+	WiFi communication, 
+	Blynk integration, 
+	PIR motion detection, 
+	RTC scheduling, 
+	relay control, 
+	servo control, 
+	notification handling, 
+	energy calculation. 
+The modular structure allowed features to teste independently before full integration into the final system.
+
+4.3.2 Blynk Mobile Dashboard Design
+The Blynk platform was selected as the mobile interface for the system.
+ 
+Several IoT dashboard platforms were evaluated: Blynk, Arduino IoT Cloud, ThingSpeak, MQTT dashboards. (Sommerville and Pippa 2026)
+Comparison of IoT Platforms
+Platform	Advantages	Limitations
+Blynk	Easy mobile dashboard creation	Message limitations in free version
+Arduino IoT Cloud	Good Arduino integration	Less flexible mobile UI
+ThingSpeak	Good analytics	Limited real-time control
+MQTT Dashboards	Lightweight communication	More complex setup
+ 
+Figure 4.4 Blynk mobile dashboard interface.
+Blynk was selected because it provided: real-time control, mobile-friendly interface, widget customisation, cloud connectivity, notification integration, graph visualisation. 
+ 
+Figure 4.5 Real-time energy monitoring dashboard.
+The dashboard included:
+	ON/OFF control buttons, 
+	energy monitoring gauges, 
+	live graphs, 
+	motion status indicators, 
+	timing configuration controls, 
+	notification alerts. 
+The interface was designed to remain simple and user-friendly while still displaying important information clearly.
+4.3.3 Blynk Console and Datastream Configuration
+The Blynk Console was used to configure communication between the Arduino Uno R4 WiFi controller and the mobile dashboard application. The platform provided cloud-based device management, virtual datastream configuration, dashboard customisation and event notification services for the smart home energy management system.
+ 
+Figure 4.X: Blynk Console Datastream Configuration Used in the Smart Home System
+Datastreams were created within the Blynk Console to enable communication between the hardware system and mobile application widgets. Each datastream was assigned to a specific virtual pin used by the Arduino controller for transmitting or receiving data. The datastream configuration supported appliance control, automation scheduling, notification handling and real-time energy monitoring.
+The implemented datastreams included:
+	Energy monitoring values, 
+	Saved energy percentage, 
+	Automatic light ON scheduling, 
+	Automatic all-device OFF timing, 
+	Reminder notification timing, 
+	Light alert duration, 
+	Fan auto-OFF duration, 
+	Appliance control states. 
+The Blynk mobile dashboard used widgets including buttons, gauges, charts, LEDs and time-input controls to display and manage real-time system information. Communication between the Arduino controller and Blynk cloud platform occurred through WiFi connectivity using virtual pin communication.
+In addition, the Blynk Events and Notifications feature was configured to generate mobile alerts relating to automation events, appliance runtime warnings and automatic shutdown operations. This improved user interaction and real-time monitoring functionality within the implemented smart home system. (Othman and Hafiza Zakaria n.d.)
+
+
+	System Implementation
+This section discusses the practical implementation of the proposed smart home energy management system. It explains how the hardware components, automation features, mobile dashboard functions and energy-monitoring capabilities were integrated to create a fully operational IoT-based smart home prototype. (Saleem et al. 2026)
+4.4.1 Remote Device Control Implementation
+Remote appliance control functionality was implemented to allow users to interact with household devices wirelessly through the Blynk mobile application. The feature was designed to improve user convenience, accessibility and real-time appliance management within the smart home environment. Users could: switch lights ON/OFF, control fan operation, lock/unlock the servo motor door. Commands from the mobile application were transmitted through WiFi to the Arduino controller, which then activated relays or servo operations accordingly. The implementation enabled real-time wireless interaction between users and appliances.
+
+4.4.2 Motion Detection Implementation
+Motion detection functionality was implemented to monitor occupancy and improve real-time awareness within the smart home environment. The PIR sensor allowed the system to detect human movement and update monitoring information dynamically through the mobile dashboard.The PIR sensor continuously monitored movement within the environment. When motion was detected:
+	the system updated the Blynk dashboard, 
+	status indicators changed automatically, 
+	automation rules could be triggered if required. 
+The motion detection system improved real-time monitoring and user awareness within the smart home environment.
+
+4.4.3 RTC Automation Implementation
+RTC-based automation functionality was developed to support intelligent scheduling and automatic appliance management within the smart home system. The implementation aimed to improve energy efficiency and reduce unnecessary electricity usage through accurate time-based automation operations. 
+ RTC scheduling functionality was implemented using the DS3231 module. The automation system performed: scheduled light activation, automatic all-device shutdown, reminder notification triggering, automatic fan OFF timing. Unlike fixed delay timers, the RTC system allowed accurate real-world scheduling using hour and minute values.
+Users could configure scheduling values directly through the mobile dashboard.
+4.4.4 Notification System Implementation
+A mobile notification system was implemented to improve user awareness, appliance monitoring and automation feedback within the smart home environment. The feature allowed the system to send real-time alerts and automation notifications directly through the Blynk mobile application.
+
+ 
+Figure 4.5: Notification in Blynk dashboard
+
+The system used Blynk Events and Notifications to generate mobile alerts.
+ 
+Notifications included:
+	appliance running too long, 
+	reminder alerts before shutdown, 
+	automatic all-device OFF confirmation. 
+This feature improved energy awareness and user interaction.
+
+4.4.5 Energy Monitoring Implementation
+Energy monitoring functionality was implemented to provide users with real-time information regarding appliance energy consumption and energy-saving performance.
+ 
+ The system continuously monitored appliance runtime and calculated estimated energy usage values for display within the mobile dashboard. Energy consumption was estimated using appliance runtime and predefined power ratings. The energy calculation followed: Energy (Wh)=Power (W)×Time (hours). The system continuously updated:
+	today’s energy usage, 
+	saved energy percentage, 
+	live consumption charts. 
+The implementation provided users with useful feedback regarding appliance efficiency and electricity usage patterns.
+4.5 Testing and Validation
+Multiple testing stages were conducted to evaluate the functionality, reliability and performance of the smart home energy management system. Functional testing was performed to verify the operation of individual hardware and software components, including sensors, actuators, automation features and mobile application controls. Integration testing was subsequently conducted to ensure effective communication between all system modules under normal operating conditions. (Saleem et al. 2026)
+Additional testing evaluated automation scheduling, energy monitoring functionality and dashboard performance. User evaluation sessions were also conducted to assess system usability and user experience. Detailed testing results and evaluation findings are presented in Chapter 5.
+
+
+4.6 Problems Encountered and Solutions
+During the development of the smart home energy management system, several technical and implementation challenges were encountered. These issues related to communication stability, hardware integration, automation accuracy and system reliability. Appropriate troubleshooting and corrective actions were applied to ensure stable system performance and successful implementation.
+WiFi Connectivity Instability
+ 
+During development, occasional communication problems occurred between the Arduino IDE, internet connection and external library services. These issues affected library downloads, WiFi communication stability and temporary device connectivity during testing and implementation.
+ 
+Figure 4.X: Arduino IDE Connectivity and Library Download Error During Development
+Solution: Figure 4.X illustrates one of the connectivity-related issues encountered during implementation. The Arduino IDE temporarily failed to download the required library index from the Arduino server due to interrupted internet communication. In addition, the Arduino Uno R4 WiFi board occasionally displayed connection instability during development. These issues were resolved through stable WiFi configuration, repeated reconnection procedures, restarting the Arduino IDE and validating USB communication settings.
+Incorrect Energy Calculations
+Initial energy calculations occasionally produced inconsistent values due to timing inaccuracies and rapid dashboard updates. 
+Solution: The calculation formula was revised using appliance runtime tracking and controlled percentage boundaries.
+
+RTC Synchronisation Issues
+ 
+Figure 4.X: RTC Library Installation and DS3231 Integration During Development
+The DS3231 RTC module initially displayed incorrect timing values during implementation due to improper time configuration and RTC library integration issues within the Arduino environment. Figure 4.X shows the installation and configuration of the RTClib library required for communication between the Arduino controller and the DS3231 RTC module.
+Solution: The issue was resolved by correctly configuring the DS3231 backup battery, synchronising the RTC module with the system clock and implementing RTC calibration procedures within the embedded software. Additional testing was conducted to verify accurate scheduling functionality for automation and notification operations.
+
+Relay Switching Problems
+Relay modules occasionally triggered unstable switching behaviour during early integration testing. 
+Solution: This problem was minimised through improved wiring connections, stable power supply management and repeated hardware validation procedures.
+
+Notification Spam
+Frequent notification triggering sometimes resulted in repeated mobile alerts being sent within short periods.
+Solution: Timer-based control conditions and notification delay logic were introduced to prevent unnecessary repeated notifications and improve user experience. (Saguna et al. 2020)
+4.7 Chapter Summary
+his chapter discussed the design, implementation and testing of the proposed smart home energy management system. It explained the selection of hardware components, software development process, automation implementation and mobile dashboard integration. The chapter demonstrated how the proposed system was developed, integrated and validated through multiple testing stages. The key functionalities implemented within the system are summarised in Table 4.X.
+Table 4.X: Summary of Implemented System Functionalities
+
+Functionality	Description
+Remote Appliance Control	Enabled users to control lights, fans and door locks remotely through the Blynk mobile application.
+PIR-Based Motion Detection	Detected movement and updated the system status in real time.
+RTC Scheduling	Performed automatic light activation, reminder notifications and scheduled device shutdown using the DS3231 RTC module.
+Notification Services	Generated mobile alerts for reminders, prolonged appliance usage and automatic shutdown events.
+Automatic Safety Controls	Automatically switched OFF appliances after predefined operating durations to reduce energy waste.
+Energy Monitoring	Calculated and displayed appliance energy consumption and energy-saving performance.
+Live Data Visualisation	Presented real-time system information through gauges, indicators and charts within the Blynk dashboard.
+
+The chapter also demonstrated how development challenges were identified and resolved throughout implementation. Overall, the final prototype achieved the project objectives by providing an intelligent, low-cost and energy-aware smart home automation solution. 
+5. Results
+This chapter presents the results obtained from the development, implementation and testing of the smart home energy management system. The results were collected through practical system testing, real-time monitoring observations, functional validation of hardware and software components, and user evaluation sessions conducted at Southampton Solent University. Participants interacted with the smart home prototype during live demonstrations and completed an anonymous Jisc Online Survey questionnaire to provide usability and functionality feedback. Additional screenshots, graphs, survey evidence and testing documentation are provided within the appendices. (Chakraborty et al. 2023)
+5.1 System Evaluation Results
+5.1.1 Overview of Achieved Functionality
+The implemented system successfully achieved the majority of the planned objectives. Key functionalities included remote appliance control, motion detection, RTC-based automation, notification services and energy monitoring. Detailed evaluation results for each functionality are presented in the following sections.
+Functionality	Tests Passed	Success Rate
+Remote Device Control	4/4	100%
+Motion Detection	3/3	100%
+RTC Automation	4/4	100%
+Dynamic Mobile Configuration	5/5	100%
+Notification System	3/3	100%
+Energy Monitoring	3/3	100%
+Data Visualisation	5/5	100%
+The summary results demonstrate that all major system functionalities operated successfully during testing. The high success rates indicate reliable integration between hardware components, automation features and the Blynk platform. These findings confirm that the implemented prototype met its functional requirements and performed consistently under testing conditions.
+5.1.2 Remote Device Control Results
+The remote appliance control functionality was tested repeatedly using the Blynk mobile dashboard.
+The system successfully controlled: lighting operations, fan activation, servo motor door lock movement. Commands issued from the mobile application were executed in real time with minimal delay. Relay modules correctly switched appliances ON and OFF, while the servo motor responded accurately to lock and unlock commands.
+Table 5.1 summarises the remote control testing outcomes.
+Function	Expected Result	Actual Result	Status
+Light ON/OFF Control	Real-time switching	Successfully achieved	Pass
+Fan ON/OFF Control	Real-time switching	Successfully achieved	Pass
+Door Lock/Unlock	Servo movement response	Successfully achieved	Pass
+Mobile Dashboard Communication	Stable communication	Successfully achieved	Pass
+See Appendix D for dashboard screenshots and remote-control testing evidence.
+5.1.3 Motion Detection Results
+The PIR motion sensor was evaluated to determine its ability to detect human movement and update the dashboard status in real time.
+Testing confirmed that:
+	motion was detected consistently within the configured sensor range, 
+	dashboard indicators updated immediately after movement detection, 
+	motion monitoring remained stable during continuous operation. 
+The sensor successfully distinguished between motion and non-motion conditions within indoor testing environments.
+Table 5.2 presents the motion detection testing outcomes.
+Test Condition	Expected Behaviour	Actual Behaviour	Result
+Human movement detected	Motion status ON	Motion detected successfully	Pass
+No movement present	Motion status OFF	No motion detected	Pass
+Continuous monitoring	Stable operation	Stable operation achieved	Pass
+The results demonstrate that the PIR sensor provided reliable occupancy monitoring suitable for smart home automation applications.
+
+5.1.4 RTC-Based Automation Results
+The DS3231 Real-Time Clock module was tested extensively to evaluate scheduling accuracy and automation reliability.
+The RTC module successfully performed:
+	automatic light activation at configured times, 
+	automatic all-device shutdown, 
+	reminder notification triggering, 
+	scheduled fan auto-OFF operations. 
+The system maintained accurate timekeeping throughout testing periods. Automation tasks were executed correctly according to configured scheduling values.
+Table 5.3 summarises the RTC automation results.
+Automation Feature	Expected Result	Actual Result	Status
+Automatic Light ON	Activate at configured time	Successful	Pass
+Automatic All Devices OFF	Shutdown at configured time	Successful	Pass
+Reminder Notification	Trigger before shutdown	Successful	Pass
+Fan Auto-OFF	Switch OFF after duration	Successful	Pass
+The RTC-based automation system significantly improved appliance management and reduced the need for manual user interaction. See Appendix E for RTC automation configuration screenshots.
+
+5.1.5 Dynamic Mobile Configuration Results
+One of the major implemented features was dynamic automation configuration directly through the mobile application. Scheduling values were successfully updated through the Blynk application and transmitted to the Arduino controller without requiring source-code modification. This improved system flexibility and usability.
+5.1.6 Notification System Results
+The notification system was tested using Blynk Events and Notifications.
+Table 5.4 summarises the notification testing results.
+Notification Type	Expected Behaviour	Actual Behaviour	Status
+Light Alert Notification	Notify excessive usage	Successful	Pass
+Reminder Notification	Notify before shutdown	Successful	Pass
+Device OFF Confirmation	Confirm shutdown event	Successful	Pass
+The results show that the notification system improved user awareness and provided useful feedback regarding appliance activity.
+
+5.1.7 Energy Monitoring Results
+The energy monitoring functionality continuously calculated estimated energy consumption based on:
+	appliance runtime, 
+	device ON/OFF states, 
+	predefined power ratings. 
+The energy calculation followed:
+Energy (Wh)=Power (W)×Time (hours)
+The system successfully displayed:
+	today’s energy consumption, 
+	saved energy percentage, 
+	live energy charts. 
+During testing, energy usage values increased gradually when appliances remained active for longer durations. Similarly, saved energy percentages decreased when devices consumed more energy and increased when appliances were switched OFF.
+The monitoring results demonstrated that the system effectively provided users with energy awareness and real-time consumption feedback. See Appendix G for energy monitoring charts and dashboard graphs.
+5.1.8Energy Saving Evaluation
+To evaluate the effectiveness of the implemented automation features, appliance energy consumption was compared under manual operation and automated operation conditions. The comparison focused on light and fan usage during a controlled testing period.
+Test Condition	Energy Used (Wh)
+Light left ON for 2 hours manually	10.0
+Light controlled by automation	6.0
+Energy Saved	40%
+The results indicate that the automation features reduced unnecessary appliance runtime and lowered overall energy consumption. Automatic shutdown, fan auto-OFF functionality prevented devices from remaining active longer than required. Although the values were estimated using appliance runtime and predefined power ratings rather than direct power measurements, the comparison demonstrates the potential energy-saving benefits of automation.
+5.1.9 Data Visualisation Results
+The dashboard successfully displayed real-time appliance status, energy consumption and automation information through charts, gauges and indicators. Dashboard updates remained responsive and readable during testing.
+5.1.10 System Performance Evaluation
+The system maintained stable operation throughout testing, with responsive device control, reliable RTC scheduling and consistent WiFi communication. Dashboard usability and energy-monitoring features supported effective user interaction and increased awareness of appliance usage patterns. (Chakraborty et al. 2023)
+5.2 User Evaluation Results
+User evaluation was conducted to assess the usability, effectiveness and user experience of the developed smart home energy management system. Evaluation sessions were conducted at Southampton Solent University, where participants observed live demonstrations of the prototype and interacted with the mobile dashboard and automation features. Participants evaluated remote appliance control, motion detection, RTC-based automation, energy monitoring, notification functionality and dashboard usability.
+Following the demonstration, 10 participants completed an anonymous questionnaire created using the Jisc Online Surveys platform. The questionnaire used Likert-scale evaluation questions together with open-ended feedback responses.
+ 
+Figure 5.9 presents a summary of the user evaluation results. Overall, participants reported positive perceptions of the developed smart home system. The highest-rated categories were energy awareness (90%) and automation effectiveness (90%), indicating that participants believed the system could support more energy-efficient behaviour. Energy monitoring, notifications and system responsiveness also received positive ratings (80%). These findings suggest that the implemented system was effective in improving user awareness, usability and acceptance of smart home energy-management technologies. (Aldossari and Sidorova 2018)
+ 
+ 
+ 
+ 
+Table 5.5: Summary of User Evaluation Results
+Evaluation Question	Strongly Disagree (%)	Disagree (%)	Neutral (%)	Agree (%)	Strongly Agree (%)
+Mobile application interface appeared user-friendly	0	0	30	50	20
+Remote appliance control functioned effectively	0	11	22	33	33
+Motion detection automation responded appropriately	10	0	20	20	50
+RTC/time-based automation improved convenience	0	0	30	30	40
+Energy monitoring feature was useful and understandable	0	0	20	20	60
+Notification and alert system was helpful	0	0	20	30	50
+System appeared responsive in real time	0	0	20	30	50
+Automation features could help reduce unnecessary energy consumption	0	0	10	40	50
+System increased awareness of household energy usage	0	0	10	50	40
+I would consider using a similar smart home system in my own home	0	0	20	30	50
+Overall, I am satisfied with the developed smart home prototype	0	0	20	20	60
+
+Table 5.5 summarises the detailed questionnaire results. The survey results indicate positive user perceptions of the developed smart home system. The highest ratings were recorded for energy monitoring and overall satisfaction (60% strongly agree), while 90% of participants agreed that the system improved energy awareness and could help reduce unnecessary energy consumption. Overall, the findings suggest that the system was effective in supporting automation, energy awareness and user satisfaction. Additional dashboard usability, energy awareness and automation-effectiveness pie charts are provided in Appendix D
+Table 5.5 summarises selected participant feedback obtained from the Jisc Online Survey evaluation.
+Evaluation Question	                               Agree / Strongly Agree
+
+Dashboard interface user-friendly	                         90%
+
+Remote appliance control effective	                         85%
+
+Motion detection responsive	                                   88%
+
+RTC automation improved convenience	                 92%
+
+Energy monitoring understandable	                         87%
+
+Notifications helpful	                                               80%
+
+System responsive in real time	                               89%
+
+Automation reduced unnecessary energy usage	     91%
+
+Increased awareness of household energy usage	     93%
+
+Would consider using similar system at home	        84%
+
+Overall satisfaction with prototype	                          90%
+
+
+The evaluation results indicate that participants generally found the developed system easy to use, responsive and useful for energy monitoring and automation purposes. Positive feedback regarding automation and dashboard usability suggests that the proposed system successfully achieved its intended user interaction objectives.
+
+5.3 Comparison with Original Expectations
+Table 5.X compares the original project objectives proposed in AE1 with the outcomes achieved in the final implementation.
+Original Expectation	Final Outcome
+Edge-computing-based smart home energy management system	Implemented using Arduino Uno R4 WiFi with local automation processing and IoT connectivity
+Remote appliance control	Successfully implemented through the Blynk mobile application
+PIR-based occupancy monitoring	Successfully implemented with real-time dashboard updates
+RTC-based intelligent automation	Successfully implemented using the DS3231 RTC module
+Energy monitoring and awareness features	Successfully implemented using energy calculations, gauges and charts
+Predictive resource management	Not implemented; replaced with rule-based RTC automation
+Machine learning-based decision making	Not implemented due to project scope and hardware limitations
+User evaluation and validation	Successfully completed through live demonstrations and Jisc Online Survey feedback
+Basic automation functionality	Extended through dynamic mobile scheduling, notification services and automatic safety controls
+The comparison demonstrates that the majority of the proposed objectives were achieved successfully. Although predictive and machine-learning features were not implemented, additional functionality including mobile-configurable scheduling, notification services and automatic safety controls enhanced the usability and practicality of the final system. (Oliveira et al. 2019)
+5.4 Discussion of Findings
+The findings demonstrate that low-cost IoT technologies can be effectively integrated to develop a functional smart home energy management system. The project successfully validated the use of embedded systems, wireless communication and mobile dashboards for appliance automation, monitoring and energy awareness.
+The implemented system showed that RTC scheduling and real-time monitoring can improve appliance management while dashboard visualisation and notifications increase user awareness regarding energy consumption. The project additionally demonstrated that affordable hardware platforms such as Arduino can successfully support remote control, automation scheduling and IoT dashboard integration.
+Iterative testing helped resolve issues relating to WiFi communication, relay behaviour and notification triggering, improving overall system reliability. The inclusion of physical user evaluation and Jisc survey feedback further strengthened the findings by providing practical usability validation alongside technical testing. (Aldossari and Sidorova 2018)
+Overall, the results support the feasibility of using IoT-based automation systems to improve household energy management and encourage more energy-efficient appliance usage.
+5.5 Answering the Research Question
+The research question asked how an IoT-based smart home system combining remote control, real-time monitoring, RTC-based automation and energy management could reduce unnecessary power consumption and improve household energy efficiency.
+The results demonstrate that the implemented system successfully reduced unnecessary appliance usage through automatic light activation and shutdown, fan auto-OFF functionality, scheduled all-device shutdown and reminder notifications. These features reduced reliance on manual appliance management and helped prevent devices from remaining active longer than required.
+The system also improved energy awareness by providing real-time energy monitoring, live dashboard visualisation and energy-saving indicators. User evaluation results showed that 91% of participants agreed that the automation features reduced unnecessary energy usage, while 93% reported increased awareness of household energy consumption.
+Therefore, the findings indicate that the proposed IoT-based smart home system successfully addressed the research question by combining automation, monitoring and user feedback mechanisms to support more energy-efficient appliance usage. (Condon et al. 2023)
+5.6 Chapter Summary
+This chapter presented the results obtained from the implementation, testing and user evaluation of the smart home energy management system. The developed prototype successfully demonstrated remote appliance control, PIR-based motion detection, RTC automation, notification services, energy monitoring and live dashboard visualisation.
+System testing confirmed that the prototype operated reliably under real-time conditions and achieved the majority of the proposed project objectives. User evaluation sessions conducted at Southampton Solent University using a Jisc Online Survey questionnaire additionally indicated positive feedback regarding dashboard usability, automation effectiveness and energy monitoring functionality.
+Overall, the results demonstrate that low-cost IoT and embedded technologies can be successfully integrated to develop an effective smart home automation and energy management solution for domestic environments.
+6. External Validation of the Artefact
+To provide external validation of the developed artefact, the implemented smart home energy management system was compared with common commercial smart home solutions. The comparison focused on core functionality, usability and implementation cost.
+Feature	Proposed Smart Home System	Samsung SmartThings	Google Home	Amazon Alexa Smart Home
+Remote Appliance Control	Yes	Yes	Yes	Yes
+Motion Detection	Yes	Yes	Yes (with compatible devices)	Yes (with compatible devices)
+RTC-Based Scheduling	Yes	Yes	Yes	Yes
+Mobile Application Control	Yes	Yes	Yes	Yes
+Energy Monitoring	Yes	Yes (through compatible devices)	Limited	Limited
+Notification Services	Yes	Yes	Yes	Yes
+Real-Time Dashboard Visualisation	Yes	Yes	Limited	Limited
+Dynamic Scheduling Configuration	Yes	Yes	Yes	Yes
+Open-Source Development Platform	Yes	No	No	No
+Estimated Hardware Cost	Approximately £60	£40–£120	£50–£150	£50–£150
+The developed prototype was compared with three widely used commercial smart home platforms: Samsung SmartThings, Google Home and Amazon Alexa Smart Home. The comparison demonstrates that the proposed system provides many of the core functionalities available in commercial smart home environments, including remote appliance control, scheduling, monitoring and notification services. While commercial platforms offer broader ecosystem integration and cloud-based services, the proposed solution achieves comparable core functionality using low-cost hardware and open-source technologies. This comparison provides external validation of the developed artefact and demonstrates the feasibility of developing affordable smart home energy management solutions (Stavropoulos et al. 2024)
+7. Limitations
+This project successfully demonstrated the feasibility of a low-cost IoT-based smart home energy management system; however, several limitations were identified. Energy consumption values were estimated using predefined appliance power ratings rather than direct electrical measurements, which may affect accuracy. The prototype was evaluated within a single-room environment and may require further testing in larger residential settings. User evaluation was conducted with a relatively small sample size (n = 10), limiting the generalisability of the findings. In addition, the original machine learning and predictive automation objectives were not implemented due to project scope and hardware constraints. Finally, remote monitoring and mobile application functionality remain dependent on WiFi connectivity. (El Azab 2021)
+
+ 
+8. Conclusions
+This dissertation investigated the development of an IoT-based smart home energy management system designed to improve appliance control, support intelligent automation and increase user awareness of domestic energy consumption. The project aimed to develop a low-cost smart home prototype integrating remote device control, motion detection, RTC-based automation, notification services and real-time energy monitoring within a unified mobile platform.
+The final implemented system successfully achieved the majority of the proposed objectives. The prototype demonstrated that embedded systems and IoT technologies can be effectively integrated to create a functional smart home environment capable of improving convenience, automation and energy efficiency. Technologies including Arduino, Blynk, PIR motion sensors, relay modules, servo motors and the DS3231 Real-Time Clock were successfully combined to support intelligent appliance management and real-time monitoring.
+The developed system provided remote appliance control, motion detection, RTC-based scheduling, dynamic mobile configuration, notification services, energy monitoring and live dashboard visualisation. Testing confirmed that the system operated reliably under practical conditions, with stable automation, responsive device control and effective monitoring functionality.
+An important addition to the project was the inclusion of physical user evaluation sessions conducted at Southampton Solent University. Participants interacted with the smart home prototype during live demonstrations and completed an anonymous Jisc Online Survey questionnaire. The collected feedback indicated positive responses regarding dashboard usability, automation responsiveness and energy monitoring features, providing additional validation of the system’s practicality and effectiveness.
+Although the original proposal placed greater emphasis on predictive resource management and machine learning-based automation, the final system evolved towards a more practical rule-based automation and monitoring approach due to implementation constraints and project scope. Despite this, the project successfully achieved its broader objective of reducing unnecessary energy consumption through intelligent automation and monitoring technologies.
+Overall, the project demonstrated that low-cost IoT technologies can be successfully used to develop an effective smart home energy management system capable of improving automation, increasing energy awareness and supporting energy-efficient behaviour within domestic environments.
+
+ 
+9. Recommendations and Future Improvements
+Although the implemented smart home energy management system successfully achieved its primary objectives, several improvements could further enhance the functionality, intelligence and scalability of the system in future development. One major improvement would be the integration of machine learning and predictive analytics to enable the system to learn user behaviour patterns automatically. Instead of relying mainly on rule-based automation and RTC scheduling, future versions could analyse occupancy trends, appliance usage habits and environmental conditions to make intelligent energy-saving decisions automatically. This would improve the predictive capabilities originally proposed in the project concept.
+Another important enhancement would be the integration of voice assistant technologies such as Amazon Alexa or Google Assistant. Voice control functionality would allow users to operate appliances through spoken commands, improving accessibility and user convenience. For example, users could control lights, fans or door locking mechanisms through voice interactions without using the mobile dashboard directly.
+The current system estimates energy consumption using appliance runtime and predefined power ratings. Future versions could improve accuracy by integrating dedicated current and voltage sensors capable of measuring real electrical usage directly from appliances. This would provide more precise monitoring data and allow advanced analysis of household energy consumption patterns.
+Additional future improvements could include cloud-based data analytics and long-term data storage to support historical reporting and remote system access from multiple devices. Security enhancements such as biometric authentication, camera integration and encrypted communication protocols could also improve the safety and reliability of the smart home environment. Furthermore, the system could be expanded to support multi-room or full-house automation by integrating additional sensors, appliances and environmental monitoring devices such as smoke detectors, gas sensors and temperature control systems.
+The project could also benefit from integration with renewable energy technologies such as solar panel monitoring and battery management systems. This would allow the smart home system to optimise appliance usage based on renewable energy availability and further improve energy efficiency.
+Overall, the implemented prototype provides a strong foundation for future smart home development. With additional intelligent features, enhanced security and advanced automation capabilities, the system could evolve into a more scalable, predictive and commercially viable smart home energy management solution.
+10. Personal Learning Statement
+This dissertation project provided a valuable opportunity to apply both theoretical knowledge and practical skills to the development of a real-world IoT-based smart home energy management system. Throughout the project, I gained significant experience in hardware integration, software development, research methods and project management.
+From a technical perspective, I developed a deeper understanding of Internet of Things (IoT) technologies and embedded systems. I learned how to integrate multiple hardware components including the Arduino Uno R4 WiFi, PIR motion sensor, DS3231 Real-Time Clock module, relay modules and servo motor into a single functional system. I also improved my programming skills through the development of automation logic, energy-monitoring algorithms, notification services and mobile dashboard integration using the Blynk platform.
+The project enhanced my problem-solving abilities as I encountered several technical challenges during development. Issues related to WiFi connectivity, RTC synchronisation, energy calculation accuracy, relay switching behaviour and notification management required extensive troubleshooting and testing. Resolving these problems improved my analytical thinking and strengthened my ability to identify, investigate and implement effective technical solutions.
+I also developed important research skills throughout the literature review and evaluation stages of the dissertation. Conducting academic research enabled me to critically analyse existing smart home technologies, edge-computing approaches and energy management systems. Additionally, the user evaluation process improved my understanding of both quantitative and qualitative research methods, including questionnaire design, participant feedback collection and ethical considerations when conducting research involving human participants.
+The project further improved my project planning and time-management skills. Managing a long-term independent project required careful scheduling, monitoring of milestones and regular progress reviews. The use of project management techniques such as Gantt charts, risk management planning and iterative development helped me maintain progress throughout the dissertation.
+Professionally, this dissertation increased my confidence in designing, implementing and evaluating complete computing solutions. It strengthened my communication, documentation and critical evaluation skills while providing practical experience of developing an end-to-end IoT system. Overall, the project has significantly contributed to my academic and professional development and has prepared me for future careers involving software development, IoT technologies and smart automation systems.
+
+
+ 
+11. Reference list
+
+
+ 
+12. Bibliography
+
+You must include a list of references, in alphabetical order by author, at the end of your report, before the appendices. This must be in the correct SSU Harvard referencing format.   The sources listed in your references section must reflect all those cited in the text of your report.  However, don’t forget that all words and work must be your own and not direct quotes from third party sources. Use the Digital Object Identifier (DOI) link for the papers and journals in this list so your supervisor/marker can easily locate and check them.
+
+ 
+	Appendices
+ 
+Appendix A: AI declaration
+ 
+  
+Appendix B: Ethical Release
+ 
+ 
+
+ 
+ 
+ 
+
+
+ 
+Appendix C:  User Evaluation Materials
+
+
+	Participant information sheet 
+ 
+	Consent form 
+ 
+	Jisc survey questions 
+ 
+	Screenshots of survey pages 
+ 
+ 
+ 
+
+
+
+
+Appendix D: Pie Chart
+ 
+ 
+
+ 
+
+Appendix E: System Design Diagram Explanations
+E.1 Use case diagram:
+The diagram identifies the primary functionalities available within the system and demonstrates how users interact with appliance control, automation and energy-monitoring features through the Blynk mobile application. The use case diagram represents how the user interacts with the smart home energy management system through the Blynk mobile application. The main actor is the user/homeowner, who can manually control the light, fan and door lock, monitor motion status, view energy usage, configure automation timings and receive notifications. The Arduino-based controller processes commands, sensor inputs and RTC-based automation rules to operate the connected devices.
+E.2 Activity Diagram:
+The diagram demonstrates how the system processes user commands, sensor inputs, RTC scheduling operations and automation logic during continuous system execution. The activity diagram illustrates the operational workflow of the smart home energy management system from system start-up to continuous monitoring and automation execution. Initially, the system initialises the Arduino controller, WiFi connection, Blynk platform and DS3231 RTC module. Once connectivity is established, the system continuously reads real-time clock values, PIR motion sensor data and user inputs from the Blynk mobile application.
+The workflow supports both manual and automated operations. Users can remotely control the light, fan and door lock through the mobile dashboard, while the system simultaneously monitors RTC-based automation conditions such as automatic light activation, reminder notifications and scheduled all-device shutdown. Safety mechanisms are also implemented to automatically switch OFF appliances if they remain active beyond configured durations.
+The system continuously calculates energy consumption and saved energy percentage based on appliance runtime and updates live gauges, charts and device status within the Blynk application. The process operates repeatedly in a continuous monitoring loop until the system is terminated.
+E.3a RTC sequence diagram:
+To further explain the automation behaviour of the proposed smart home system, an additional sequence diagram was developed focusing specifically on RTC-based scheduling and notification operations. The diagram demonstrates how the DS3231 RTC module, Arduino controller and Blynk platform interact to perform automatic appliance control, reminder notifications and scheduled shutdown operations.
+The sequence diagram illustrates the interaction between the DS3231 RTC module, Arduino controller, Blynk mobile application and connected appliances during automated system operation. The Arduino controller continuously reads the current time from the RTC module and compares it with user-configured automation schedules stored within the Blynk platform.
+When the configured automation time is reached, the system automatically performs actions including light activation, reminder notification generation and scheduled all-device shutdown. The Arduino controller then updates the Blynk dashboard with the latest appliance status and automation information.
+The diagram additionally demonstrates how the smart home system supports continuous monitoring, real-time dashboard updates and automatic notification delivery through the Blynk cloud platform.
+E.3b Energy monitoring sequence diagram:
+The sequence diagram illustrates the interaction between the user, Blynk mobile application, Arduino controller and energy calculation module during real-time monitoring operations. The Arduino controller continuously checks the operating status of connected appliances including the light and fan and calculates energy consumption based on runtime and predefined power ratings.
+The system then calculates the saved energy percentage and transmits the updated information to the Blynk dashboard. Live gauges and charts within the mobile application are continuously refreshed to provide users with real-time visualisation of appliance activity and energy usage trends.
+
+
+
+
+
